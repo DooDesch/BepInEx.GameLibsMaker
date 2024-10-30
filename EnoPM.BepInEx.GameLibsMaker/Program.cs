@@ -107,6 +107,11 @@ internal static class Program
         var files = managedDirectory.GetFiles("*.dll");
         foreach (var file in files)
         {
+            // Skip if file starts with "mscore", "netstandard", "unity" or "system"
+            if (file.Name.StartsWith("mscore") || file.Name.StartsWith("netstandard") || file.Name.StartsWith("unity") || file.Name.StartsWith("system"))
+            {
+                continue;
+            }
             var stopwatch = Stopwatch.StartNew();
             InfoMessage($"Processing assembly {file.Name}...");
             var assemblyDefinition = AssemblyDefinition.ReadAssembly(file.FullName, new ReaderParameters
